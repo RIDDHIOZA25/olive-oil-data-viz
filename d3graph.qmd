@@ -1,9 +1,6 @@
 # Interactive graph
 
 <style>
-  * {
-    font-family: sans-serif;
-  }
   #plot {
     display: flex;
     justify-content: center;
