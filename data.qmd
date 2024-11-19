@@ -1,5 +1,554 @@
 # Data
 
-## Description
+## Dataset Description: Analysis of Olive Oil Data
 
-## Missing value analysis
+Our project focuses on analyzing various aspects of olive oil, including its chemical composition, trade flows, and price trends. Olive oil, a staple of Mediterranean cuisine, is valued not only for its culinary uses but also for its health benefits and economic importance. This project involves the following three datasets:
+
+
+## Chemical Composition of Olive Oil for Various Categories
+
+This dataset examines the chemical composition of olive oil by analyzing the relationships between various fatty acids. It provides insights into the chemical profiles of different olive oil samples, which is crucial for understanding quality, regional characteristics, and classification. The dataset is commonly used in food science, quality assurance, and authentication studies to differentiate olive oils based on their chemical properties. This dataset enables a detailed exploration of how chemical profiles differ across regions, aiding in the identification of quality and origin of olive oil.
+
+### Loading necessary libraries
+
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(GGally)
+library(reshape2)
+library(ggparallel)
+library(scales)
+library(ggalluvial)
+library(lubridate)
+library(reshape2)
+library(viridis)
+library(tidyr)
+```
+
+
+### Reading Data: OLIVE OIL COMPOSITION FOR VARIOUS CATEGORIES
+
+```{r}
+olive_oil <- read.csv("olive_oil.csv")
+head(olive_oil)
+```
+
+
+### Check data summary
+
+```{r}
+table(olive_oil$category)
+
+colSums(is.na(olive_oil))
+```
+
+
+
+### Feature Selection: Correlation Matrix
+
+```{r}
+# Identifing feature columns
+features_columns <- c("palmitico", "palmitoleico", "stearico", 
+                      "oleico", "linoleico", "eicosanoico", 
+                      "linolenico")
+
+# Dropping 'category' column to compute correlations
+corr <- cor(olive_oil[, features_columns])
+
+# Displaying features with strong correlations
+strong_corr <- melt(corr) %>%
+  filter(value > 0.5 & Var1 != Var2)
+print(strong_corr)
+```
+
+
+### Calculating Number of Bins
+
+```{r}
+# Number of bins calculation based on the number of rows
+number_of_bins <- 2 * round(sqrt(nrow(olive_oil)))
+number_of_bins
+```
+
+
+### Scatter Histogram
+
+```{r}
+ggplot(olive_oil, aes(x = palmitico, y = palmitoleico, color = category)) +
+  geom_point() +
+  geom_density_2d() +
+  labs(title = "Scatter plot with density: Palmitico vs Palmitoleico") +
+  theme_minimal()
+```
+
+
+### Histograms for Features
+
+```{r}
+# Create histograms for each feature
+features_hist <- function(data, feature, bins) {
+  ggplot(data, aes_string(x = feature)) +
+    geom_histogram(aes(y = ..density..), bins = bins, alpha = 0.4, fill = "green") +
+    geom_density(color = "red") +
+    labs(title = paste("Histogram with density:", feature)) +
+    theme_minimal()
+}
+
+# Generate histograms for all features
+for (feature in features_columns) {
+  print(features_hist(olive_oil, feature, number_of_bins))
+}
+```
+
+
+### Box Plots
+
+```{r}
+# General box plot
+ggplot(melt(olive_oil[, features_columns]), aes(x = variable, y = value)) +
+  geom_boxplot(outlier.size = 0.5) +
+  labs(title = "Boxplots for all features") +
+  theme_minimal()
+
+# Box plots for each feature grouped by 'category'
+features_boxplot <- function(data, feature) {
+  ggplot(data, aes_string(x = "category", y = feature)) +
+    geom_boxplot(outlier.size = 0.5) +
+    labs(title = paste("Boxplot of", feature, "by Category")) +
+    theme_minimal()
+}
+
+# Generate box plots for all features by category
+for (feature in features_columns) {
+  print(features_boxplot(olive_oil, feature))
+}
+```
+
+### Correlation Heatmap
+
+```{r}
+# Plot heatmap of correlations
+heatmap_corr <- ggplot(melt(corr), aes(Var1, Var2, fill = value)) +
+  geom_tile() +
+  geom_text(aes(label = round(value, 2)), color = "black", size = 3) +
+  scale_fill_gradient2(low = "blue", high = "red", mid = "white", midpoint = 0) +
+  labs(title = "Correlation Heatmap") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+heatmap_corr
+```
+
+### Parallel Coordinates
+
+```{r}
+# Standardize features
+olive_oil_standardized <- olive_oil
+olive_oil_standardized[, features_columns] <- scale(olive_oil_standardized[, features_columns])
+
+# Parallel coordinates plot
+ggparcoord(
+  data = olive_oil_standardized,
+  columns = which(names(olive_oil_standardized) %in% features_columns),
+  groupColumn = "category",
+  scale = "globalminmax",
+  alphaLines = 0.5
+) +
+  scale_color_manual(values = c("#00ff45", "#4ECDC4", "#ff0000", "#fff121", "#001dd5")) +
+  labs(title = "Parallel Coordinates Plot", x = "Features", y = "Standardized Value") +
+  theme_minimal()
+```
+
+
+
+## Olive Oil Prices (2023)
+
+This dataset contains daily price data for different quality categories of olive oil in January 2023. It tracks the prices (in euros per kilogram) for three distinct types of olive oil: Extra Virgin Olive Oil (Premium Quality), Virgin Olive Oil, Lampante Olive Oil. 
+
+### Function to Plot Olive Oil Prices
+
+```{r}
+plot_prices <- function(df, year, save = FALSE) {
+  # Convert Date to Date format
+  df$Fecha <- as.Date(df$Fecha, format = "%Y-%m-%d")
+  
+  # Melt data for ggplot
+  df_melted <- melt(df, id.vars = "Fecha", variable.name = "Category", value.name = "Price")
+  
+  # Line Plot
+  p <- ggplot(df_melted, aes(x = Fecha, y = Price, color = Category, group = Category)) +
+    geom_line(size = 1) +
+    labs(
+      title = paste("Olive Oil Prices (€/kg) -", year),
+      x = "Date",
+      y = "Price (€)",
+      color = "Category"
+    ) +
+    theme_minimal() +
+    scale_x_date(
+      date_breaks = "1 week",
+      date_labels = "%Y-%m-%d"
+    ) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_color_viridis_d()
+  
+  print(p)
+}
+```
+
+### Function to Plot Olive Oil Prices with Trendlines
+
+```{r}
+plot_prices_with_trend <- function(df, year, save = FALSE) {
+  # Convert Date to Date format
+  df$Fecha <- as.Date(df$Fecha, format = "%Y-%m-%d")
+  
+  # Melt data for ggplot
+  df_melted <- melt(df, id.vars = "Fecha", variable.name = "Category", value.name = "Price")
+  
+  # Line Plot with Trendlines
+  p <- ggplot(df_melted, aes(x = Fecha, y = Price, color = Category, group = Category)) +
+    geom_line(size = 1) +
+    geom_smooth(method = "lm", linetype = "dashed", se = FALSE) +
+    labs(
+      title = paste("Olive Oil Prices with Trendlines (€/kg) -", year),
+      x = "Date",
+      y = "Price (€)",
+      color = "Category"
+    ) +
+    theme_minimal() +
+    scale_x_date(
+      date_breaks = "1 week",
+      date_labels = "%Y-%m-%d"
+    ) +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+    scale_color_viridis_d()
+  
+  print(p)
+}
+```
+
+### Function to Plot Heatmap of Monthly Olive Oil Prices
+
+```{r}
+plot_heatmap <- function(df, year, save = FALSE) {
+  # Convert Fecha to Date format
+  df$Fecha <- as.Date(df$Fecha, format = "%Y-%m-%d")
+  df$Month <- month(df$Fecha)
+  
+  # Select the correct column for "Extra Virgin Olive Oil Price"
+  df$Price <- df$Precio.Virgen.extra
+  
+  # Pivot data for heatmap
+  df_heatmap <- df %>%
+    select(Fecha, Month, Price) %>%
+    group_by(Month, Fecha) %>%
+    summarize(Price = mean(Price, na.rm = TRUE)) %>%
+    spread(Fecha, Price)
+  
+  # Convert to matrix for heatmap
+  heatmap_data <- as.matrix(df_heatmap[,-1])
+  rownames(heatmap_data) <- month.name[df_heatmap$Month]
+  
+  # Heatmap Plot
+  heatmap_colors <- viridis::viridis(100)
+  
+  heatmap(
+    heatmap_data,
+    Rowv = NA,
+    Colv = NA,
+    col = heatmap_colors,
+    scale = "none",
+    margins = c(5, 10),
+    main = paste("Heatmap of Monthly Prices (", year, ")", sep = ""),
+    xlab = "Date",
+    ylab = "Month"
+  )
+}
+```
+
+### Reading Data: OLIVE OIL PRICES 2023
+
+```{r}
+df <- read.csv("olive_prices_2023.csv")
+colnames(df)
+```
+
+### Generating Plots
+
+```{r}
+plot_prices(df, 2023)
+plot_prices_with_trend(df, 2023)
+plot_heatmap(df, 2023)
+```
+
+
+## Flow of Olive Oil Between Countries
+
+This dataset captures the flow of olive oil between various countries or regions. The values represent quantities (e.g., tons or liters) exchanged between exporting and importing countries. It highlights major players in the olive oil trade, their destinations, and trade volumes. This dataset is essential for understanding the international olive oil trade, including major exporting and importing nations and trade dependencies.
+
+### Reading & Plotting Data: FLOW - 2022-2023
+
+```{r}
+# Read the CSV file and handle row/column names
+flows <- read.csv("FLOWS_1.csv", check.names = FALSE, row.names = 1)
+
+# Remove the "(all)" row and column
+flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
+
+# Calculate total flows for each source country
+flows$TotalFlow <- rowSums(flows, na.rm = TRUE)
+
+# Select the top 5 countries with the highest total flows
+top_n <- 5  # Top 5 countries
+top_countries <- flows %>%
+  arrange(desc(TotalFlow)) %>%
+  head(top_n) %>%
+  rownames()
+
+# Filter flows to only include the top countries
+flows_filtered <- flows[top_countries, ]
+flows_filtered <- flows_filtered[, !colnames(flows_filtered) %in% "TotalFlow"]
+
+# Convert the filtered dataset into a long format
+flows_long <- flows_filtered %>%
+  rownames_to_column(var = "From") %>%
+  pivot_longer(cols = -From, names_to = "To", values_to = "Flow") %>%
+  filter(!is.na(Flow) & Flow > 0)  # Filter out NA and zero values
+
+# Add a third axis (Region or Category) for visualization purposes
+flows_long <- flows_long %>%
+  mutate(Category = ifelse(To %in% c("Extra-EU", "Intra-EU"), "EU", "Non-EU"))
+
+# Create a multi-axis alluvial diagram
+ggplot(flows_long,
+       aes(axis1 = From, axis2 = Category, axis3 = To, y = Flow)) +
+  geom_alluvium(aes(fill = From), alpha = 0.8, width = 1/12) +
+  geom_stratum(fill = "grey", color = "black") +
+  geom_text(stat = "stratum", aes(label = paste(after_stat(stratum), "\n", after_stat(count))), size = 3) +
+  scale_x_discrete(limits = c("From", "Category", "To")) +
+  labs(title = "Multi-Axis Flow Between Top 5 Countries (2022-2023)",
+       x = "Flow Direction",
+       y = "Flow Magnitude") +
+  theme_minimal() +
+  theme(
+    legend.position = "none",  # Remove the legend
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+### Reading  & Plotting Data: FLOW - 2021-2022
+
+```{r}
+# Read the CSV file and handle row/column names
+flows <- read.csv("FLOWS_2.csv", check.names = FALSE, row.names = 1)
+
+# Remove the "(all)" row and column
+flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
+
+# Calculate total flows for each source country
+flows$TotalFlow <- rowSums(flows, na.rm = TRUE)
+
+# Select the top 5 countries with the highest total flows
+top_n <- 5  # Top 5 countries
+top_countries <- flows %>%
+  arrange(desc(TotalFlow)) %>%
+  head(top_n) %>%
+  rownames()
+
+# Filter flows to only include the top countries
+flows_filtered <- flows[top_countries, ]
+flows_filtered <- flows_filtered[, !colnames(flows_filtered) %in% "TotalFlow"]
+
+# Convert the filtered dataset into a long format
+flows_long <- flows_filtered %>%
+  rownames_to_column(var = "From") %>%
+  pivot_longer(cols = -From, names_to = "To", values_to = "Flow") %>%
+  filter(!is.na(Flow) & Flow > 0)  # Filter out NA and zero values
+
+# Add a third axis (Region or Category) for visualization purposes
+flows_long <- flows_long %>%
+  mutate(Category = ifelse(To %in% c("Extra-EU", "Intra-EU"), "EU", "Non-EU"))
+
+# Create a multi-axis alluvial diagram
+ggplot(flows_long,
+       aes(axis1 = From, axis2 = Category, axis3 = To, y = Flow)) +
+  geom_alluvium(aes(fill = From), alpha = 0.8, width = 1/12) +
+  geom_stratum(fill = "grey", color = "black") +
+  geom_text(stat = "stratum", aes(label = paste(after_stat(stratum), "\n", after_stat(count))), size = 3) +
+  scale_x_discrete(limits = c("From", "Category", "To")) +
+  labs(title = "Multi-Axis Flow Between Top 5 Countries (2021-2022)",
+       x = "Flow Direction",
+       y = "Flow Magnitude") +
+  theme_minimal() +
+  theme(
+    legend.position = "none",  # Remove the legend
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+### Reading  & Plotting Data: FLOW - 2020-2021
+
+```{r}
+# Read the CSV file and handle row/column names
+flows <- read.csv("FLOWS_3.csv", check.names = FALSE, row.names = 1)
+
+# Remove the "(all)" row and column
+flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
+
+# Calculate total flows for each source country
+flows$TotalFlow <- rowSums(flows, na.rm = TRUE)
+
+# Select the top 5 countries with the highest total flows
+top_n <- 5  # Top 5 countries
+top_countries <- flows %>%
+  arrange(desc(TotalFlow)) %>%
+  head(top_n) %>%
+  rownames()
+
+# Filter flows to only include the top countries
+flows_filtered <- flows[top_countries, ]
+flows_filtered <- flows_filtered[, !colnames(flows_filtered) %in% "TotalFlow"]
+
+# Convert the filtered dataset into a long format
+flows_long <- flows_filtered %>%
+  rownames_to_column(var = "From") %>%
+  pivot_longer(cols = -From, names_to = "To", values_to = "Flow") %>%
+  filter(!is.na(Flow) & Flow > 0)  # Filter out NA and zero values
+
+# Add a third axis (Region or Category) for visualization purposes
+flows_long <- flows_long %>%
+  mutate(Category = ifelse(To %in% c("Extra-EU", "Intra-EU"), "EU", "Non-EU"))
+
+# Create a multi-axis alluvial diagram
+ggplot(flows_long,
+       aes(axis1 = From, axis2 = Category, axis3 = To, y = Flow)) +
+  geom_alluvium(aes(fill = From), alpha = 0.8, width = 1/12) +
+  geom_stratum(fill = "grey", color = "black") +
+  geom_text(stat = "stratum", aes(label = paste(after_stat(stratum), "\n", after_stat(count))), size = 3) +
+  scale_x_discrete(limits = c("From", "Category", "To")) +
+  labs(title = "Multi-Axis Flow Between Top 5 Countries (2020-2021)",
+       x = "Flow Direction",
+       y = "Flow Magnitude") +
+  theme_minimal() +
+  theme(
+    legend.position = "none",  # Remove the legend
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+### Reading  & Plotting Data: FLOW - 2019-2020
+
+```{r}
+# Read the CSV file and handle row/column names
+flows <- read.csv("FLOWS_4.csv", check.names = FALSE, row.names = 1)
+
+# Remove the "(all)" row and column
+flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
+
+# Calculate total flows for each source country
+flows$TotalFlow <- rowSums(flows, na.rm = TRUE)
+
+# Select the top 5 countries with the highest total flows
+top_n <- 5  # Top 5 countries
+top_countries <- flows %>%
+  arrange(desc(TotalFlow)) %>%
+  head(top_n) %>%
+  rownames()
+
+# Filter flows to only include the top countries
+flows_filtered <- flows[top_countries, ]
+flows_filtered <- flows_filtered[, !colnames(flows_filtered) %in% "TotalFlow"]
+
+# Convert the filtered dataset into a long format
+flows_long <- flows_filtered %>%
+  rownames_to_column(var = "From") %>%
+  pivot_longer(cols = -From, names_to = "To", values_to = "Flow") %>%
+  filter(!is.na(Flow) & Flow > 0)  # Filter out NA and zero values
+
+# Add a third axis (Region or Category) for visualization purposes
+flows_long <- flows_long %>%
+  mutate(Category = ifelse(To %in% c("Extra-EU", "Intra-EU"), "EU", "Non-EU"))
+
+# Create a multi-axis alluvial diagram
+ggplot(flows_long,
+       aes(axis1 = From, axis2 = Category, axis3 = To, y = Flow)) +
+  geom_alluvium(aes(fill = From), alpha = 0.8, width = 1/12) +
+  geom_stratum(fill = "grey", color = "black") +
+  geom_text(stat = "stratum", aes(label = paste(after_stat(stratum), "\n", after_stat(count))), size = 3) +
+  scale_x_discrete(limits = c("From", "Category", "To")) +
+  labs(title = "Multi-Axis Flow Between Top 5 Countries (2019-2020)",
+       x = "Flow Direction",
+       y = "Flow Magnitude") +
+  theme_minimal() +
+  theme(
+    legend.position = "none",  # Remove the legend
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
+### Reading  & Plotting Data: FLOW - 2018-2019
+
+```{r}
+# Read the CSV file and handle row/column names
+flows <- read.csv("FLOWS_5.csv", check.names = FALSE, row.names = 1)
+
+# Remove the "(all)" row and column
+flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
+
+# Calculate total flows for each source country
+flows$TotalFlow <- rowSums(flows, na.rm = TRUE)
+
+# Select the top 5 countries with the highest total flows
+top_n <- 5  # Top 5 countries
+top_countries <- flows %>%
+  arrange(desc(TotalFlow)) %>%
+  head(top_n) %>%
+  rownames()
+
+# Filter flows to only include the top countries
+flows_filtered <- flows[top_countries, ]
+flows_filtered <- flows_filtered[, !colnames(flows_filtered) %in% "TotalFlow"]
+
+# Convert the filtered dataset into a long format
+flows_long <- flows_filtered %>%
+  rownames_to_column(var = "From") %>%
+  pivot_longer(cols = -From, names_to = "To", values_to = "Flow") %>%
+  filter(!is.na(Flow) & Flow > 0)  # Filter out NA and zero values
+
+# Add a third axis (Region or Category) for visualization purposes
+flows_long <- flows_long %>%
+  mutate(Category = ifelse(To %in% c("Extra-EU", "Intra-EU"), "EU", "Non-EU"))
+
+# Create a multi-axis alluvial diagram
+ggplot(flows_long,
+       aes(axis1 = From, axis2 = Category, axis3 = To, y = Flow)) +
+  geom_alluvium(aes(fill = From), alpha = 0.8, width = 1/12) +
+  geom_stratum(fill = "grey", color = "black") +
+  geom_text(stat = "stratum", aes(label = paste(after_stat(stratum), "\n", after_stat(count))), size = 3) +
+  scale_x_discrete(limits = c("From", "Category", "To")) +
+  labs(title = "Multi-Axis Flow Between Top 5 Countries (2018-2019)",
+       x = "Flow Direction",
+       y = "Flow Magnitude") +
+  theme_minimal() +
+  theme(
+    legend.position = "none",  # Remove the legend
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.grid.major = element_blank(),
+    panel.grid.minor = element_blank()
+  )
+```
+
