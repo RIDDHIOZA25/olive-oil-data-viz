@@ -1,12 +1,25 @@
 # Interactive graph
 
 <style>
-  * {
-    font-family: sans-serif;
+  #plot {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
   }
-</style> 
+  #details {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+</style>
 
-<div id="plot">
+<div id="plot"></div>
+<div id="details">
+  <h3>Country Details</h3>
+  <p>Click on a country node to view details here.</p>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
