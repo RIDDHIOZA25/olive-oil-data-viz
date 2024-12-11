@@ -1,107 +1,103 @@
-// add your JavaScript/D3 to this file
+// Define dimensions and margins
+const scatterWidth = 500;
+const scatterHeight = 300;
+const scatterMargin = { top: 30, right: 30, bottom: 40, left: 50 };
 
-// Define the data for the graph
-const data = {
-  nodes: [
-    { id: "Spain", group: 1, flowsTo: 3, totalFlow: 450 },
-    { id: "Greece", group: 1, flowsTo: 2, totalFlow: 220 },
-    { id: "Italy", group: 1, flowsTo: 4, totalFlow: 390 },
-    { id: "USA", group: 2, flowsTo: 5, totalFlow: 580 },
-    { id: "Japan", group: 2, flowsTo: 2, totalFlow: 240 },
-    { id: "China", group: 2, flowsTo: 1, totalFlow: 150 },
-    { id: "France", group: 1, flowsTo: 3, totalFlow: 300 },
-  ],
-  links: [
-    { source: "Spain", target: "USA", value: 200 },
-    { source: "Greece", target: "Japan", value: 120 },
-    { source: "Italy", target: "China", value: 90 },
-    { source: "Spain", target: "France", value: 60 },
-    { source: "France", target: "USA", value: 90 },
-    { source: "Italy", target: "USA", value: 100 },
-  ],
+// Sample data (expand this with your actual olive oil data)
+const scatterData = [
+  { category: 'SA', palmitic: 14, palmitoleic: 2.2 },
+  { category: 'EL', palmitic: 10, palmitoleic: 0.8 },
+  { category: 'NA', palmitic: 11, palmitoleic: 0.9 },
+  { category: 'WL', palmitic: 9, palmitoleic: 0.6 },
+  { category: 'U', palmitic: 12, palmitoleic: 1 }
+];
+
+// Map categories to their respective image paths
+const categoryImages = {
+  SA: "/images/SA_region_card_1.png",
+  EL: "/images/EL_region_card_1.png",
+  NA: "/images/NA_region_card_1.png",
+  WL: "/images/WL_region_card_1.png",
+  U: "/images/U_region_card_1.png"
 };
 
-// Set up dimensions
-const width = 800;
-const height = 600;
-
-// Create the SVG container
-const svg = d3
-  .select("#plot")
+// Create SVG container
+const scatterSvg = d3.select("#scatterplot")
   .append("svg")
-  .attr("width", width)
-  .attr("height", height);
+  .attr("width", scatterWidth)
+  .attr("height", scatterHeight);
 
-// Set up simulation
-const simulation = d3
-  .forceSimulation(data.nodes)
-  .force("link", d3.forceLink(data.links).id(d => d.id).distance(150))
-  .force("charge", d3.forceManyBody().strength(-300))
-  .force("center", d3.forceCenter(width / 2, height / 2));
+// Create scales
+const xScale = d3.scaleLinear()
+  .domain([8, 18])
+  .range([scatterMargin.left, scatterWidth - scatterMargin.right]);
 
-// Add links to the graph
-const link = svg
-  .append("g")
-  .selectAll("line")
-  .data(data.links)
-  .join("line")
-  .attr("stroke-width", d => d.value / 50)
-  .attr("stroke", "gray");
+const yScale = d3.scaleLinear()
+  .domain([0.5, 2.5])
+  .range([scatterHeight - scatterMargin.bottom, scatterMargin.top]);
 
-// Add nodes to the graph
-const node = svg
-  .append("g")
-  .selectAll("circle")
-  .data(data.nodes)
-  .join("circle")
-  .attr("r", 10)
-  .attr("fill", d => d3.schemeCategory10[d.group])
-  .call(
-    d3
-      .drag()
-      .on("start", dragStarted)
-      .on("drag", dragged)
-      .on("end", dragEnded)
-  );
+// Add axes
+scatterSvg.append("g")
+  .attr("transform", `translate(0, ${scatterHeight - scatterMargin.bottom})`)
+  .call(d3.axisBottom(xScale).ticks(5));
 
-// Add labels to nodes
-node.append("title").text(d => d.id);
+scatterSvg.append("g")
+  .attr("transform", `translate(${scatterMargin.left}, 0)`)
+  .call(d3.axisLeft(yScale).ticks(5));
 
-// Add interaction: Show details on click
-node.on("click", function (event, d) {
-  d3.select("#details").html(`
-    <h3>${d.id}</h3>
-    <p>Group: ${d.group}</p>
-    <p>Flows to: ${d.flowsTo} countries</p>
-    <p>Total Flow: ${d.totalFlow} (units)</p>
-  `);
-});
+// Create image container reference
+const imageContainer = d3.select("#image-container");
+const categoryImage = d3.select("#category-image");
 
-// Update positions on each simulation tick
-simulation.on("tick", () => {
-  link
-    .attr("x1", d => d.source.x)
-    .attr("y1", d => d.source.y)
-    .attr("x2", d => d.target.x)
-    .attr("y2", d => d.target.y);
+// Add scatter points with hover effects
+scatterSvg.selectAll("circle")
+  .data(scatterData)
+  .enter()
+  .append("circle")
+  .attr("cx", d => xScale(d.palmitic))
+  .attr("cy", d => yScale(d.palmitoleic))
+  .attr("r", 5)
+  .attr("fill", d => {
+    const colors = { SA: "blue", EL: "green", NA: "red", WL: "orange", U: "purple" };
+    return colors[d.category];
+  })
+  .on("mouseover", (event, d) => {
+    d3.select(event.target)
+      .attr("r", 8)
+      .attr("stroke", "black")
+      .attr("stroke-width", 2);
+    
+    imageContainer
+      .style("display", "block")
+      .style("left", (event.pageX + 10) + "px")
+      .style("top", (event.pageY + 10) + "px");
 
-  node.attr("cx", d => d.x).attr("cy", d => d.y);
-});
+    // Set the image source dynamically for the hovered category
+    categoryImage.attr("src", categoryImages[d.category]);
+  })
+  .on("mouseout", (event) => {
+    d3.select(event.target)
+      .attr("r", 5)
+      .attr("stroke", "none");
+    
+    imageContainer.style("display", "none");
+  })
+  .on("mousemove", (event) => {
+    imageContainer
+      .style("left", (event.pageX + 10) + "px")
+      .style("top", (event.pageY + 10) + "px");
+  });
 
-// Dragging behavior
-function dragStarted(event, d) {
-  if (!event.active) simulation.alphaTarget(0.3).restart();
-  d.fx = d.x;
-  d.fy = d.y;
-}
+// Add axis labels
+scatterSvg.append("text")
+  .attr("x", scatterWidth / 2)
+  .attr("y", scatterHeight - 5)
+  .style("text-anchor", "middle")
+  .text("Palmitic Acid");
 
-function dragged(event, d) {
-  d.fx = event.x;
-  d.fy = event.y;
-}
-
-function dragEnded(event, d) {
-  if (!event.active) simulation.alphaTarget(0);
-  d.fx = null;
-  d.fy = null;
-}
+scatterSvg.append("text")
+  .attr("transform", "rotate(-90)")
+  .attr("x", -scatterHeight / 2)
+  .attr("y", 15)
+  .style("text-anchor", "middle")
+  .text("Palmitoleic Acid");

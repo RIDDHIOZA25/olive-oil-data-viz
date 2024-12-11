@@ -170,30 +170,76 @@ ul.task-list li input[type="checkbox"] {
 
 
 <style>
-  #plot {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 20px;
+  /* Add these styles to your existing CSS */
+  #image-container {
+    position: absolute;
+    display: none;
+    border: 1px solid #ccc;
+    background: white;
+    padding: 5px;
+    pointer-events: none;
   }
-  #details {
-    margin-top: 20px;
-    padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+  
+  #category-image {
+    max-width: 200px;
+    max-height: 200px;
   }
 </style>
-<div id="plot">
-
+<!-- Scatterplot 1 -->
+<div id="scatterplot">
+<div class="chart-title">
+Scatterplot: Fatty Acid Composition
 </div>
-<div id="details">
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="category-image" src="./images/SA_region_card_1.png" alt="Category Image"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="category-image" src="./images/EL_region_card_1.png" alt="Category Image"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="category-image" src="./images/NA_region_card_1.png" alt="Category Image"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="category-image" src="./images/WL_region_card_1.png" alt="Category Image"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="category-image" src="./images/U_region_card_1.png" alt="Category Image"></p>
+</div>
+<!-- Outcome of the Visualization -->
+<div class="outcome-description">
 <h3 class="anchored">
-Country Details
+Outcome of this Visualization
 </h3>
 <p>
-Click on a country node to view details here.
+This interactive scatter plot showcases the relationship between <strong>Palmitic Acid</strong> and <strong>Palmitoleic Acid</strong> levels in olive oil samples from five regions:
 </p>
+<ul>
+<li>
+<strong>SA</strong>: South Apulia (highest concentration of both acids)
+</li>
+<li>
+<strong>EL</strong>: East Liguria
+</li>
+<li>
+<strong>NA</strong>: North Apulia
+</li>
+<li>
+<strong>WL</strong>: West Liguria
+</li>
+<li>
+<strong>U</strong>: Umbria
+</li>
+</ul>
+<p>
+When users hover over the points, an image of the associated region appears, helping them visualize the geographic origin of each sample. This visualization highlights the distinct fatty acid compositions and regional origins of the olive oil samples, providing an engaging way to explore and analyze the data.
+</p>
+</div>
+<!-- Scatterplot 2 -->
+<div id="scatterplot_1">
+<div class="chart-title">
+Scatterplot: Leading Producers of Olive Oil
+</div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>

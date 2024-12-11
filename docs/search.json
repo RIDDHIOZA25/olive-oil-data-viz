@@ -54,7 +54,7 @@
     "href": "d3graph.html",
     "title": "4  Interactive graph",
     "section": "",
-    "text": "Country Details\n\n\nClick on a country node to view details here.",
+    "text": "Scatterplot: Fatty Acid Composition\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nOutcome of this Visualization\n\n\nThis interactive scatter plot showcases the relationship between Palmitic Acid and Palmitoleic Acid levels in olive oil samples from five regions:\n\n\n\nSA: South Apulia (highest concentration of both acids)\n\n\nEL: East Liguria\n\n\nNA: North Apulia\n\n\nWL: West Liguria\n\n\nU: Umbria\n\n\n\nWhen users hover over the points, an image of the associated region appears, helping them visualize the geographic origin of each sample. This visualization highlights the distinct fatty acid compositions and regional origins of the olive oil samples, providing an engaging way to explore and analyze the data.\n\n\n\n\n\nScatterplot: Leading Producers of Olive Oil",
     "crumbs": [
       "<span class='chapter-number'>4</span>  <span class='chapter-title'>Interactive graph</span>"
     ]
