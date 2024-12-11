@@ -1,1 +1,22 @@
 # Results
+
+## Chemical Composition of Olive Oil for Various Categories:
+
+- The analysis of fatty acid composition revealed distinct profiles across the five olive oil categories (EL, NA, SA, U, WL). Scatter plots highlighted a strong positive correlation between palmitic and palmitoleic acids for the South American (SA) category, forming a distinct diagonal cluster (palmitic: 12-18, palmitoleic: 1.5-2.5). In contrast, the other categories clustered tightly in the lower-middle range (palmitic: 9-12, palmitoleic: 0.5-1.0), with density contours emphasizing the concentration and separation of groups.
+- Parallel coordinates plots further illustrated variations in fatty acid compositions, with notable peaks in stearic acid for WL and significant differences in oleic and linoleic acids across categories. These findings suggest unique chemical profiles linked to regional origins and processing methods, providing insights into the classification and quality of olive oil samples.
+
+
+## Olive Oil Prices (2023):
+
+- The price trends for three olive oil grades (Extra Virgin, Virgin, and Lampante) throughout 2023 showcased consistent upward movement. Extra Virgin Olive Oil maintained the highest price point, exceeding €8/kg towards the end of the year, reflecting its premium quality. Virgin Olive Oil followed an intermediate trajectory, while Lampante Olive Oil remained the lowest-priced category due to its lower quality.
+- All three grades demonstrated a significant price surge, particularly in the latter half of 2023, rising from approximately €5/kg to €8/kg. This upward trend highlights potential market drivers such as production constraints, increased global demand, and evolving economic conditions impacting the olive oil industry.
+
+## Flow of Olive Oil Between Countries:
+
+- The Multi-Axis Flow diagrams across years (2018-2019 to 2022-2023) revealed intricate global trade patterns. Spain emerged as the leading exporter, followed by Greece, Argentina, Morocco, and Egypt. Flows were split between the EU (336,603.6) and non-EU (273,156.3) regions, with intra-EU trade dominating as the largest recipient (281,371.4), while the USA and Brazil were notable non-EU importers.
+- The diagrams highlighted the interconnected nature of trade, with Spain and Greece heavily exporting to both EU and non-EU regions. Color-coded streams and varying band widths visualized the flow magnitudes, reflecting complex trade dependencies and global distribution dynamics in the olive oil industry.
+
+
+
+
+

@@ -1,1 +1,12 @@
 # Conclusion
+
+## Chemical Composition of Olive Oil for Various Categories:
+- The chemical composition analysis identified unique fatty acid profiles across olive oil categories, with significant variations in palmitic and palmitoleic acid concentrations. The South American (SA) category stood out with distinct higher concentrations, suggesting unique regional or production characteristics. These findings provide valuable insights for categorizing and authenticating olive oil based on chemical properties.
+
+
+## Olive Oil Prices (2023):
+- The steady and notable price increases for Extra Virgin, Virgin, and Lampante olive oils in 2023 highlight shifting market dynamics. The consistent upward trend, particularly in Extra Virgin Olive Oil, underscores the growing demand for premium-grade olive oils. These trends emphasize the importance of monitoring market conditions to understand pricing mechanisms and their impact on the olive oil industry.
+
+
+## Flow of Olive Oil Between Countries:
+- The trade flow analysis revealed Spain and Greece as dominant exporters, with significant trade volumes directed to both EU and non-EU regions. The intra-EU trade flows were the largest, indicating a robust internal market. The interconnected trade patterns highlight the global reliance on key exporting nations and the importance of understanding trade dependencies for better policy and market strategies.
