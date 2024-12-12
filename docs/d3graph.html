@@ -170,21 +170,30 @@ ul.task-list li input[type="checkbox"] {
 
 
 <style>
-  /* Add these styles to your existing CSS */
   #image-container {
-    position: absolute;
-    display: none;
-    border: 1px solid #ccc;
-    background: white;
-    padding: 5px;
-    pointer-events: none;
-  }
-  
-  #category-image {
-    max-width: 200px;
-    max-height: 200px;
-  }
-</style>
+      position: absolute;
+      display: none;
+      border: 1px solid #ccc;
+      background: white;
+      padding: 5px;
+      pointer-events: none;
+    }
+
+  #category-image, #country-flag {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
+  .chart-title {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+  .outcome-description {
+      margin-top: 20px;
+    }
+  </style>
 <!-- Scatterplot 1 -->
 <div id="scatterplot">
 <div class="chart-title">
@@ -235,11 +244,50 @@ This interactive scatter plot showcases the relationship between <strong>Palmiti
 When users hover over the points, an image of the associated region appears, helping them visualize the geographic origin of each sample. This visualization highlights the distinct fatty acid compositions and regional origins of the olive oil samples, providing an engaging way to explore and analyze the data.
 </p>
 </div>
-<!-- Scatterplot 2 -->
-<div id="scatterplot_1">
+<!-- Barchart 2 -->
+<div id="barchart">
 <div class="chart-title">
-Scatterplot: Leading Producers of Olive Oil
+Bar Chart: Major Olive Oil Producers
 </div>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<div id="image-container" style="display: none;">
+<p><img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag"></p>
+</div>
+<!-- Outcome of the Visualization -->
+<div class="outcome-description">
+<h3 class="anchored">
+Outcome of this Visualization
+</h3>
+<p>
+This bar chart provides insights into the leading producers of olive oil worldwide, showcasing their <strong>average annual production (in thousand tons)</strong>. Hovering over each bar reveals the country’s flag, adding an engaging element to the data exploration experience. This visualization emphasizes the dominance of countries like Spain and Egypt in olive oil production, offering valuable insights for stakeholders in agriculture and trade.
+</p>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>

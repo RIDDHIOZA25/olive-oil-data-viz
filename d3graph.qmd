@@ -1,21 +1,30 @@
 # Interactive graph
 
-<style>
-  /* Add these styles to your existing CSS */
+  <style>
   #image-container {
-    position: absolute;
-    display: none;
-    border: 1px solid #ccc;
-    background: white;
-    padding: 5px;
-    pointer-events: none;
-  }
-  
-  #category-image {
-    max-width: 200px;
-    max-height: 200px;
-  }
-</style>
+      position: absolute;
+      display: none;
+      border: 1px solid #ccc;
+      background: white;
+      padding: 5px;
+      pointer-events: none;
+    }
+
+  #category-image, #country-flag {
+      max-width: 200px;
+      max-height: 200px;
+    }
+
+  .chart-title {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+  .outcome-description {
+      margin-top: 20px;
+    }
+  </style>
 
 <!-- Scatterplot 1 -->
 <div id="scatterplot">
@@ -63,12 +72,62 @@
   </p>
 </div>
 
-<!-- Scatterplot 2 -->
-<div id="scatterplot_1">
-  <div class="chart-title">Scatterplot: Leading Producers of Olive Oil</div>
+<!-- Barchart 2 -->
+<div id="barchart">
+  <div class="chart-title">Bar Chart: Major Olive Oil Producers</div>
 </div>
 
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="" alt="Country Flag">
+</div>
 
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/egypt.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/greece.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/morocco.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/peru.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/argentina.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/italy.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/united-states.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/portugal.png?raw=true" alt="Country Flag">
+</div>
+
+<div id="image-container" style="display: none;">
+  <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/mexico.png?raw=true" alt="Country Flag">
+</div>
+
+<!-- Outcome of the Visualization -->
+<div class="outcome-description">
+  <h3>Outcome of this Visualization</h3>
+  <p>
+    This bar chart provides insights into the leading producers of olive oil worldwide, showcasing their **average annual production (in thousand tons)**. Hovering over each bar reveals the country's flag, adding an engaging element to the data exploration experience. This visualization emphasizes the dominance of countries like Spain and Egypt in olive oil production, offering valuable insights for stakeholders in agriculture and trade.
+  </p>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
 <script src="scripts/myscript.js"></script>
