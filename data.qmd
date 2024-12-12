@@ -2,9 +2,9 @@
 
 ## Dataset Description: Analysis of Olive Oil Data
 
-Our project focuses on analyzing various aspects of olive oil, including its chemical composition, trade flows, and price trends. Olive oil, a staple of Mediterranean cuisine, is valued not only for its culinary uses but also for its health benefits and economic importance. This project involves the following three datasets:
+Our project focuses on analyzing various aspects of olive oil, including its chemical composition, trade flows, and price trends. Olive oil, a staple of Mediterranean cuisine, is valued not only for its culinary uses but also for its health benefits and economic importance. The data used in this project has been obtained from the International Olive Council (https://www.internationaloliveoil.org/), which provides comprehensive statistics and insights into the global olive oil industry. These datasets form the foundation for exploring patterns, trends, and market dynamics, aiding in a deeper understanding of the olive oil sector. 
 
-The data used in this project has been obtained from the International Olive Council (https://www.internationaloliveoil.org/), which provides comprehensive statistics and insights into the global olive oil industry. These datasets form the foundation for exploring patterns, trends, and market dynamics, aiding in a deeper understanding of the olive oil sector. This project involves the following three datasets:
+This project involves the following three datasets:
 
 
 ## Chemical Composition of Olive Oil for Various Categories
@@ -49,6 +49,31 @@ table(olive_oil$category)
 colSums(is.na(olive_oil))
 ```
 
+
+### Missing Value Analysis for Chemical Composition of Olive Oil
+
+```{r}
+# Check missing values in olive_oil dataset
+missing_olive_oil <- colSums(is.na(olive_oil))
+
+# Create a data frame for visualization
+missing_olive_oil_df <- data.frame(
+  Feature = names(missing_olive_oil),
+  MissingValues = missing_olive_oil
+)
+
+# Plot missing values
+ggplot(missing_olive_oil_df, aes(x = Feature, y = MissingValues)) +
+  geom_bar(stat = "identity", fill = "steelblue", alpha = 0.8) +
+  geom_text(aes(label = MissingValues), vjust = -0.5) +
+  labs(
+    title = "Missing Values in Olive Oil Composition Dataset",
+    x = "Feature",
+    y = "Count of Missing Values"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 
 ### Feature Selection: Correlation Matrix
@@ -175,7 +200,39 @@ ggparcoord(
 
 ## Olive Oil Prices (2023)
 
-This dataset contains daily price data for different quality categories of olive oil in January 2023. It tracks the prices (in euros per kilogram) for three distinct types of olive oil: Extra Virgin Olive Oil (Premium Quality), Virgin Olive Oil, Lampante Olive Oil. 
+This dataset contains daily price data for different quality categories of olive oil in January 2023. It tracks the prices (in euros per kilogram) for three distinct types of olive oil: Extra Virgin Olive Oil (Premium Quality), Virgin Olive Oil, Lampante Olive Oil.
+
+### Reading Data: OLIVE OIL PRICES 2023
+
+```{r}
+df <- read.csv("olive_prices_2023.csv")
+colnames(df)
+```
+
+### Missing Value Analysis for Olive Oil Prices (2023)
+
+```{r}
+# Check missing values in df
+df_missing <- colSums(is.na(df))
+
+# Create a data frame for visualization
+df_missing_df <- data.frame(
+  Feature = names(df_missing),
+  MissingValues = df_missing
+)
+
+# Plot missing values
+ggplot(df_missing_df, aes(x = Feature, y = MissingValues)) +
+  geom_bar(stat = "identity", fill = "darkgreen", alpha = 0.8) +
+  geom_text(aes(label = MissingValues), vjust = -0.5) +
+  labs(
+    title = "Missing Values in Olive Oil Prices Dataset (2023)",
+    x = "Feature",
+    y = "Count of Missing Values"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+```
 
 ### Function to Plot Olive Oil Prices
 
@@ -279,12 +336,6 @@ plot_heatmap <- function(df, year, save = FALSE) {
 }
 ```
 
-### Reading Data: OLIVE OIL PRICES 2023
-
-```{r}
-df <- read.csv("olive_prices_2023.csv")
-colnames(df)
-```
 
 ### Generating Plots
 
@@ -303,12 +354,44 @@ plot_heatmap(df, 2023)
 
 This dataset captures the flow of olive oil between various countries or regions. The values represent quantities (e.g., tons or liters) exchanged between exporting and importing countries. It highlights major players in the olive oil trade, their destinations, and trade volumes. This dataset is essential for understanding the international olive oil trade, including major exporting and importing nations and trade dependencies.
 
+### Missing Value Analysis for Flow of Olive Oil Between Countries
+
+```{r}
+# Define a function to check and visualize missing values for flow datasets
+plot_missing_flows <- function(flow_data, title) {
+  # Calculate missing values
+  flow_missing <- colSums(is.na(flow_data))
+
+  # Create a data frame for visualization
+  flow_missing_df <- data.frame(
+    Feature = names(flow_missing),
+    MissingValues = flow_missing
+  )
+
+  # Plot missing values
+  ggplot(flow_missing_df, aes(x = Feature, y = MissingValues)) +
+    geom_bar(stat = "identity", fill = "purple", alpha = 0.8) +
+    geom_text(aes(label = MissingValues), vjust = -0.5) +
+    labs(
+      title = title,
+      x = "Feature",
+      y = "Count of Missing Values"
+    ) +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1))
+}
+```
+
 ### Reading & Plotting Data: FLOW - 2022-2023
 
 ```{r}
 # Read the CSV file and handle row/column names
 flows <- read.csv("FLOWS_1.csv", check.names = FALSE, row.names = 1)
+plot_missing_flows(flows, "Missing Values in Flow Dataset (2022-2023)")
+```
 
+
+```{r}
 # Remove the "(all)" row and column
 flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
 
@@ -361,7 +444,11 @@ ggplot(flows_long,
 ```{r}
 # Read the CSV file and handle row/column names
 flows <- read.csv("FLOWS_2.csv", check.names = FALSE, row.names = 1)
+plot_missing_flows(flows, "Missing Values in Flow Dataset (2021-2022)")
+```
 
+
+```{r}
 # Remove the "(all)" row and column
 flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
 
@@ -414,7 +501,11 @@ ggplot(flows_long,
 ```{r}
 # Read the CSV file and handle row/column names
 flows <- read.csv("FLOWS_3.csv", check.names = FALSE, row.names = 1)
+plot_missing_flows(flows, "Missing Values in Flow Dataset (2020-2021)")
+```
 
+
+```{r}
 # Remove the "(all)" row and column
 flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
 
@@ -467,7 +558,11 @@ ggplot(flows_long,
 ```{r}
 # Read the CSV file and handle row/column names
 flows <- read.csv("FLOWS_4.csv", check.names = FALSE, row.names = 1)
+plot_missing_flows(flows, "Missing Values in Flow Dataset (2019-2020)")
+```
 
+
+```{r}
 # Remove the "(all)" row and column
 flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
 
@@ -520,7 +615,11 @@ ggplot(flows_long,
 ```{r}
 # Read the CSV file and handle row/column names
 flows <- read.csv("FLOWS_5.csv", check.names = FALSE, row.names = 1)
+plot_missing_flows(flows, "Missing Values in Flow Dataset (2018-2019)")
+```
 
+
+```{r}
 # Remove the "(all)" row and column
 flows <- flows[!rownames(flows) %in% "(all)", !colnames(flows) %in% "(all)"]
 
