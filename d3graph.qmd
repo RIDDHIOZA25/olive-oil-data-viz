@@ -78,10 +78,6 @@
 </div>
 
 <div id="image-container" style="display: none;">
-  <img id="country-flag" src="" alt="Country Flag">
-</div>
-
-<div id="image-container" style="display: none;">
   <img id="country-flag" src="https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/spain.png?raw=true" alt="Country Flag">
 </div>
 
