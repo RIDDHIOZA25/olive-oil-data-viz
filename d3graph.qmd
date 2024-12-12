@@ -23,26 +23,26 @@
 </div>
 
 <div id="image-container" style="display: none;">
-  <img id="category-image" src="/images/SA_region_card_1.png" alt="Category Image">
+  <img id="category-image" src="https://riddhioza25.github.io/olive-oil-data-viz/images/SA_region_card_1.png" alt="Category Image">
 </div>
 
 
 <div id="image-container" style="display: none;">
-  <img id="category-image" src="/images/EL_region_card_1.png" alt="Category Image">
+  <img id="category-image" src="https://riddhioza25.github.io/olive-oil-data-viz/images/EL_region_card_1.png" alt="Category Image">
 </div>
 
 
 <div id="image-container" style="display: none;">
-  <img id="category-image" src="/images/NA_region_card_1.png" alt="Category Image">
+  <img id="category-image" src="https://riddhioza25.github.io/olive-oil-data-viz/images/NA_region_card_1.png" alt="Category Image">
 </div>
 
 
 <div id="image-container" style="display: none;">
-  <img id="category-image" src="/images/WL_region_card_1.png" alt="Category Image">
+  <img id="category-image" src="https://riddhioza25.github.io/olive-oil-data-viz/images/WL_region_card_1.png" alt="Category Image">
 </div>
 
 <div id="image-container" style="display: none;">
-  <img id="category-image" src="/images/U_region_card_1.png" alt="Category Image">
+  <img id="category-image" src="https://riddhioza25.github.io/olive-oil-data-viz/images/U_region_card_1.png" alt="Category Image">
 </div>
 
 <!-- Outcome of the Visualization -->

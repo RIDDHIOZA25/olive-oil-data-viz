@@ -14,12 +14,13 @@ const scatterData = [
 
 // Map categories to their respective image paths
 const categoryImages = {
-  SA: "/images/SA_region_card_1.png",
-  EL: "/images/EL_region_card_1.png",
-  NA: "/images/NA_region_card_1.png",
-  WL: "/images/WL_region_card_1.png",
-  U: "/images/U_region_card_1.png"
+  SA: "https://riddhioza25.github.io/olive-oil-data-viz/images/SA_region_card_1.png",
+  EL: "https://riddhioza25.github.io/olive-oil-data-viz/images/EL_region_card_1.png",
+  NA: "https://riddhioza25.github.io/olive-oil-data-viz/images/NA_region_card_1.png",
+  WL: "https://riddhioza25.github.io/olive-oil-data-viz/images/WL_region_card_1.png",
+  U: "https://riddhioza25.github.io/olive-oil-data-viz/images/U_region_card_1.png"
 };
+
 
 // Create SVG container
 const scatterSvg = d3.select("#scatterplot")
