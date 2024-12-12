@@ -4,12 +4,19 @@
 
 Our project focuses on analyzing various aspects of olive oil, including its chemical composition, trade flows, and price trends. Olive oil, a staple of Mediterranean cuisine, is valued not only for its culinary uses but also for its health benefits and economic importance. This project involves the following three datasets:
 
+The data used in this project has been obtained from the International Olive Council (https://www.internationaloliveoil.org/), which provides comprehensive statistics and insights into the global olive oil industry. These datasets form the foundation for exploring patterns, trends, and market dynamics, aiding in a deeper understanding of the olive oil sector. This project involves the following three datasets:
+
 
 ## Chemical Composition of Olive Oil for Various Categories
 
 This dataset examines the chemical composition of olive oil by analyzing the relationships between various fatty acids. It provides insights into the chemical profiles of different olive oil samples, which is crucial for understanding quality, regional characteristics, and classification. The dataset is commonly used in food science, quality assurance, and authentication studies to differentiate olive oils based on their chemical properties. This dataset enables a detailed exploration of how chemical profiles differ across regions, aiding in the identification of quality and origin of olive oil.
 
 ### Loading necessary libraries
+
+```{r}
+options(warn = -1)
+```
+
 
 ```{r}
 library(tidyverse)
@@ -159,6 +166,11 @@ ggparcoord(
   theme_minimal()
 ```
 
+### Key Insights:
+
+- The scatter plot reveals a compelling relationship between palmitic and palmitoleic acid concentrations across five distinct categories (EL, NA, SA, U, and WL), with the South American (SA) samples displaying a notable positive correlation as they form a diagonal cluster extending from the middle to upper right of the plot (palmitic: 12-18, palmitoleic: 1.5-2.5), while the remaining categories (EL, NA, U, and WL) exhibit tighter clustering in the lower-middle portion with considerable overlap, showing palmitic values between 9-12 and palmitoleic values around 0.5-1.0, with density contours highlighting the concentration of points and a few outliers scattered beyond the main clusters, particularly within the SA group, demonstrating the varying relationships between these fatty acids across different sample categories.
+
+- The parallel coordinates and scatter plots reveal distinct patterns in fatty acid compositions across categories (EL, NA, SA, U, WL). The parallel plot highlights variations in seven fatty acids, with notable peaks in stearico acid for WL (blue lines) and differences in oleico and linoleico acids. The scatter plot emphasizes the relationship between palmitico and palmitoleico acids, showing SA (green) as a distinct cluster with higher values (palmitico: 12-18, palmitoleico: 1.5-2.5), while other categories cluster in the lower-mid range (palmitico: 9-12, palmitoleico: 0.5-1.0). Density contours in the scatter plot further highlight separation between SA and other groups, suggesting unique fatty acid profiles linked to origins or processing methods.
 
 
 ## Olive Oil Prices (2023)
@@ -281,6 +293,10 @@ plot_prices(df, 2023)
 plot_prices_with_trend(df, 2023)
 plot_heatmap(df, 2023)
 ```
+
+### Key Insights:
+
+- The line graph provides an insightful analysis of the price trends for three olive oil grades throughout 2023. The Extra Virgin Olive Oil (Precio.Virgen.extra), represented by a purple line, consistently holds the highest price among the three categories, with values climbing steadily and peaking above €8/kg towards the end of the year. The Virgin Olive Oil (Precio.Virgen), depicted with a teal line, maintains an intermediate price range, exhibiting a similar upward trajectory, albeit at slightly lower levels compared to Extra Virgin Olive Oil. Finally, the Lampante Olive Oil (Precio.Lampante), shown in yellow, reflects the lowest pricing, highlighting its classification as a lower-grade oil. Despite these differences, all three grades display a significant and consistent upward trend, with prices rising from approximately €5/kg at the beginning of 2023 to nearly €8/kg by the year's end. This notable price surge, particularly in the latter half of 2023, underscores shifts in market dynamics, possibly driven by factors like production constraints, increased demand, or economic conditions impacting the olive oil industry globally.
 
 
 ## Flow of Olive Oil Between Countries
@@ -552,3 +568,7 @@ ggplot(flows_long,
   )
 ```
 
+
+### Key Insights:
+
+- The Multi-Axis Flow diagram for years 2018-2019 till 2022-2023 highlights intricate olive oil trade patterns. Spain leads as the top exporter (290,282), followed by Greece (153,938.1) and others like Argentina, Morocco, and Egypt. Flows are split between the EU (336,603.6) and non-EU (273,156.3) regions. Intra-EU trade dominates as the largest recipient (281,371.4), with significant imports by the USA (133,627.5) and Brazil (91,636.8). The diagram illustrates interconnected flows, with Spain and Greece exporting heavily to both EU and non-EU regions, and varying band widths and color-coded streams emphasizing trade complexities and magnitudes.
