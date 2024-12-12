@@ -14,11 +14,11 @@ const scatterData = [
 
 // Map categories to their respective image paths
 const categoryImages = {
-  SA: "https://riddhioza25.github.io/olive-oil-data-viz/images/SA_region_card_1.png",
-  EL: "https://riddhioza25.github.io/olive-oil-data-viz/images/EL_region_card_1.png",
-  NA: "https://riddhioza25.github.io/olive-oil-data-viz/images/NA_region_card_1.png",
-  WL: "https://riddhioza25.github.io/olive-oil-data-viz/images/WL_region_card_1.png",
-  U: "https://riddhioza25.github.io/olive-oil-data-viz/images/U_region_card_1.png"
+  SA: "https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/SA_region_card_1.png?raw=true",
+  EL: "https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/EL_region_card_1.png?raw=true",
+  NA: "https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/NA_region_card_1.png?raw=true",
+  WL: "https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/WL_region_card_1.png?raw=true",
+  U: "https://github.com/RIDDHIOZA25/olive-oil-data-viz/blob/main/images/U_region_card_1.png?raw=true"
 };
 
 
