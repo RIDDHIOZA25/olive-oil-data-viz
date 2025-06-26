@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="weather-forecast" class="section level1" number="19">
+      <h1 class="hasAnchor">
+        <span class="header-section-number">19</span> Weather forecast<a
+          href="weather-forecast.html#weather-forecast"
+          class="anchor-section"
+          aria-label="Anchor link to header"
+        ></a>
+      </h1>
+      <script src="https://d3js.org/d3.v7.js"></script>
+      <style>
+        * {
+          font-family: sans-serif;
+        }
+        text {
+          font-size: 12px;
+        }
+      </style>
+      <h3>Weather forecast for Columbia University</h3>
+      <p>Lat, Lon: 40.807793, -73.962144</p>
+      <p>(Hover over points for more details.)</p>
+      <input type="radio" name="tempscale" value="F" checked="true" />Fahrenheit
+      <input type="radio" name="tempscale" value="C" />Celsius
+      <div id="plot">
+        <div>
+          <img
+            src="https://github.com/jtr13/d3book/blob/main/images/blank86x86.png?raw=true"
+            style="padding-left: 307px"
+          />
+        </div>
+        <svg width="700" height="300">
+          <rect width="700" height="300" fill="#e7f5fe"></rect>
+          <g id="plot" transform="translate (100, 25)">
+            <line
+              x1="0"
+              x2="500"
+              y1="16.07142857142856"
+              y2="16.07142857142856"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <line
+              x1="0"
+              x2="500"
+              y1="48.21428571428571"
+              y2="48.21428571428571"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <line
+              x1="0"
+              x2="500"
+              y1="80.35714285714285"
+              y2="80.35714285714285"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <line
+              x1="0"
+              x2="500"
+              y1="112.5"
+              y2="112.5"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <line
+              x1="0"
+              x2="500"
+              y1="144.64285714285714"
+              y2="144.64285714285714"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <line
+              x1="0"
+              x2="500"
+              y1="176.7857142857143"
+              y2="176.7857142857143"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <line
+              x1="0"
+              x2="500"
+              y1="208.92857142857147"
+              y2="208.92857142857147"
+              stroke="#ddd"
+              stroke-width="1"
+            ></line>
+            <circle
+              cx="322.22222222222223"
+              cy="16.07142857142856"
+              r="3"
+            ></circle>
+            <circle
+              cx="266.6666666666667"
+              cy="48.21428571428571"
+              r="3"
+            ></circle>
+            <circle
+              cx="333.3333333333333"
+              cy="80.35714285714285"
+              r="3"
+            ></circle>
+            <circle cx="400" cy="112.5" r="3"></circle>
+            <circle
+              cx="133.33333333333334"
+              cy="144.64285714285714"
+              r="3"
+            ></circle>
+            <circle cx="100" cy="176.7857142857143" r="3"></circle>
+            <circle
+              cx="155.55555555555557"
+              cy="208.92857142857147"
+              r="3"
+            ></circle>
+            <g
+              id="xaxis"
+              transform="translate (0, 225)"
+              fill="none"
+              font-size="10"
+              font-family="sans-serif"
+              text-anchor="middle"
+            >
+              <path
+                class="domain"
+                stroke="currentColor"
+                d="M0,6V0H500V6"
+              ></path>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(44.44444444444444,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">30</text>
+              </g>
+              <g class="tick" opacity="1" transform="translate(100,0)">
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">35</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(155.55555555555557,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">40</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(211.11111111111111,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">45</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(266.6666666666667,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">50</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(322.22222222222223,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">55</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(377.77777777777777,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">60</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(433.33333333333337,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">65</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(488.88888888888886,0)"
+              >
+                <line stroke="currentColor" y2="6"></line>
+                <text fill="currentColor" y="9" dy="0.71em">70</text>
+              </g>
+            </g>
+            <text id="xlab" x="250" y="262.5" text-anchor="middle">
+              temperature (Fahrenheit)
+            </text>
+            <g
+              fill="none"
+              font-size="10"
+              font-family="sans-serif"
+              text-anchor="end"
+            >
+              <path
+                class="domain"
+                stroke="currentColor"
+                d="M-6,0H0V225H-6"
+              ></path>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(0,16.07142857142856)"
+              >
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">
+                  This Afternoon
+                </text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(0,48.21428571428571)"
+              >
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">Monday</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(0,80.35714285714285)"
+              >
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">Tuesday</text>
+              </g>
+              <g class="tick" opacity="1" transform="translate(0,112.5)">
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">Wednesday</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(0,144.64285714285714)"
+              >
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">Thursday</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(0,176.7857142857143)"
+              >
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">Friday</text>
+              </g>
+              <g
+                class="tick"
+                opacity="1"
+                transform="translate(0,208.92857142857147)"
+              >
+                <line stroke="currentColor" x2="-6"></line>
+                <text fill="currentColor" x="-9" dy="0.32em">Saturday</text>
+              </g>
+            </g>
+          </g>
+        </svg>
+        <div style="padding: 10px">
+          <a href="https://www.weather.gov/documentation/services-web-api"
+            >Data source:
+            https://www.weather.gov/documentation/services-web-api</a
+          >
+        </div>
+      </div>
+      <script type="text/javascript">
+        // Width and height
+        const w = 700;
+        const h = 300;
+        const margin = { top: 25, right: 100, bottom: 50, left: 100 };
+        const innerHeight = h - margin.top - margin.bottom;
+        const innerWidth = w - margin.left - margin.right;
+
+        // create "placeholder" image
+        const icon = d3
+          .select("div#plot")
+          .append("div")
+          .append("img")
+          .attr(
+            "src",
+            "https://github.com/jtr13/d3book/blob/main/images/blank86x86.png?raw=true"
+          )
+          .style("padding-left", w / 2 - 43 + "px");
+
+        // create SVG element
+        const svg = d3
+          .select("div#plot")
+          .append("svg")
+          .attr("width", w)
+          .attr("height", h);
+
+        // create background rectangle
+        svg
+          .append("rect")
+          .attr("width", w)
+          .attr("height", h)
+          .attr("fill", "#e7f5fe");
+
+        // create caption
+        d3.select("div#plot")
+          .append("div")
+          .style("padding", "10px")
+          .append("a")
+          .attr(
+            "href",
+            "https://www.weather.gov/documentation/services-web-api"
+          )
+          .text(
+            "Data source: https://www.weather.gov/documentation/services-web-api"
+          );
+
+        // create plot group
+        svg
+          .append("g")
+          .attr("id", "plot")
+          .attr("transform", `translate (${margin.left}, ${margin.top})`);
+
+        d3.json("https://api.weather.gov/gridpoints/OKX/33,38/forecast")
+          .then(function (data) {
+            // filter for isDaytime equals "true"
+            const dataset = data.properties.periods.filter((d) => d.isDaytime);
+
+            const tempscale = "F";
+            // create new property with celsius temperature
+            dataset.forEach(
+              (d) => (d.celsius = ((d.temperature - 32) * 5) / 9)
+            );
+
+            xScale = d3
+              .scaleLinear()
+              .domain([
+                d3.min(dataset.map((d) => d.temperature - 9)),
+                d3.max(dataset.map((d) => d.temperature + 9)),
+              ])
+              .range([0, innerWidth]);
+
+            yScale = d3
+              .scaleBand()
+              .domain(dataset.map((d) => d.name))
+              .range([0, innerHeight]);
+
+            xAxis = d3.axisBottom().scale(xScale);
+
+            yAxis = d3.axisLeft().scale(yScale);
+
+            // Generate guide lines
+            svg
+              .select("g#plot")
+              .selectAll("line")
+              .data(dataset)
+              .enter()
+              .append("line")
+              .attr("x1", 0)
+              .attr("x2", innerWidth)
+              .attr("y1", (d) => yScale(d.name) + 0.5 * yScale.bandwidth())
+              .attr("y2", (d) => yScale(d.name) + 0.5 * yScale.bandwidth())
+              .attr("stroke", "#ddd")
+              .attr("stroke-width", 1);
+
+            // Create circles
+            svg
+              .select("g#plot")
+              .selectAll("circle")
+              .data(dataset)
+              .enter()
+              .append("circle")
+              .attr("cx", (d) => xScale(d.temperature))
+              .attr("cy", (d) => yScale(d.name) + 0.5 * yScale.bandwidth())
+              .attr("r", 3)
+              .on("mouseover", function (event, d) {
+                const xcoord = +d3.select(event.currentTarget).attr("cx") + 5;
+                const ycoord = +d3.select(event.currentTarget).attr("cy") - 5;
+                svg
+                  .select("g#plot")
+                  .append("text")
+                  .attr("id", "tooltip")
+                  .attr("x", xcoord)
+                  .attr("y", ycoord)
+                  .text(d.shortForecast);
+                icon.attr("src", d.icon);
+              })
+              .on("mouseout", function () {
+                d3.select("#tooltip").remove();
+                icon.attr(
+                  "src",
+                  "https://github.com/jtr13/d3book/blob/main/images/blank86x86.png?raw=true"
+                );
+              });
+
+            // create x-axis
+            svg
+              .select("g#plot")
+              .append("g")
+              .attr("id", "xaxis")
+              .attr("transform", `translate (0, ${innerHeight})`)
+              .call(xAxis);
+
+            // create x-axis label
+            svg
+              .select("g#plot")
+              .append("text")
+              .attr("id", "xlab")
+              .attr("x", innerWidth / 2)
+              .attr("y", innerHeight + 0.75 * margin.bottom)
+              .attr("text-anchor", "middle")
+              .text("temperature (Fahrenheit)");
+
+            // create y-axis
+            svg.select("g#plot").append("g").call(yAxis);
+
+            // get value of radio button on click
+            d3.selectAll("input").on("click", function (event) {
+              const tempscale = event.currentTarget.value;
+              if (tempscale == "C") {
+                // update xScale domain
+                xScale.domain([
+                  d3.min(dataset.map((d) => d.celsius - 5)),
+                  d3.max(dataset.map((d) => d.celsius + 5)),
+                ]);
+                // update x-axis label
+                svg.select("#xlab").text("temperature (Celsius)");
+                // update cx value of circles
+                svg.selectAll("circle").attr("cx", (d) => xScale(d.celsius));
+              } else {
+                // update xScale domain
+                xScale.domain([
+                  d3.min(dataset.map((d) => d.temperature - 9)),
+                  d3.max(dataset.map((d) => d.temperature + 9)),
+                ]);
+                // update x-axis label
+                svg.select("#xlab").text("temperature (Fahrenheit)");
+                // update cx value of circles
+                svg
+                  .selectAll("circle")
+                  .attr("cx", (d) => xScale(d.temperature));
+              }
+              // update x-axis
+              svg.select("#xaxis").call(xAxis);
+            }); // end .on
+          }) // end d3.json
+
+          .catch(function (error) {
+            d3.select("svg")
+              .append("text")
+              .style("font-size", "24px")
+              .attr("x", "100")
+              .attr("y", "100")
+              .text("Error loading data");
+          });
+      </script>
+    </div>
+  </body>
+</html>
